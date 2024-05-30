@@ -4,17 +4,18 @@ const taskCompletedDOM = document.querySelector(".task-edit-completed");
 const editFormDOM = document.querySelector(".single-task-form");
 const editBtnDOM = document.querySelector(".task-edit-btn");
 const formAlertDOM = document.querySelector(".form-alert");
+import { API } from "../constants";
+
 const params = window.location.search;
 const id = new URLSearchParams(params).get("id");
+
 let tempName;
 
 const showTask = async () => {
   try {
     const {
       data: { task },
-    } = await axios.get(
-      `https://amir-task-manager.vercel.app/api/v1/tasks/${id}`
-    );
+    } = await axios.get(`${API}api/v1/tasks/${id}`);
     const { _id: taskID, completed, name } = task;
 
     taskIDDOM.textContent = taskID;
@@ -39,13 +40,10 @@ editFormDOM.addEventListener("submit", async (e) => {
 
     const {
       data: { task },
-    } = await axios.patch(
-      `https://amir-task-manager.vercel.app/api/v1/tasks/${id}`,
-      {
-        name: taskName,
-        completed: taskCompleted,
-      }
-    );
+    } = await axios.patch(`${API}api/v1/tasks/${id}`, {
+      name: taskName,
+      completed: taskCompleted,
+    });
 
     const { _id: taskID, completed, name } = task;
 
